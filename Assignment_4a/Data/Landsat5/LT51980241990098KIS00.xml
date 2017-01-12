@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<espa_metadata version="1.1"
+xmlns="http://espa.cr.usgs.gov/v1.1"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://espa.cr.usgs.gov/v1.1 http://espa.cr.usgs.gov/schema/espa_internal_metadata_v1_1.xsd">
+
+    <global_metadata>
+        <data_provider>USGS/EROS</data_provider>
+        <satellite>LANDSAT_5</satellite>
+        <instrument>TM</instrument>
+        <acquisition_date>1990-04-08</acquisition_date>
+        <level1_production_date>2014-07-31T13:57:34Z</level1_production_date>
+        <solar_angles zenith="49.738987" azimuth="143.924255" units="degrees"/>
+        <wrs system="2" path="198" row="24"/>
+        <lpgs_metadata_file>LT51980241990098KIS00_MTL.txt</lpgs_metadata_file>
+        <corner location="UL" latitude="52.155932" longitude="5.306892"/>
+        <corner location="LR" latitude="51.851501" longitude="5.751338"/>
+        <bounding_coordinates>
+            <west>5.291562</west>
+            <east>5.769691</east>
+            <north>52.156071</north>
+            <south>51.851361</south>
+        </bounding_coordinates>
+        <projection_information projection="UTM" datum="WGS84" units="meters">
+            <corner_point location="UL" x="657808.000000" y="5780891.000000"/>
+            <corner_point location="LR" x="689488.000000" y="5748101.000000"/>
+            <grid_origin>CENTER</grid_origin>
+            <utm_proj_params>
+                <zone_code>31</zone_code>
+            </utm_proj_params>
+        </projection_information>
+        <orientation_angle>0.000000</orientation_angle>
+    </global_metadata>
+
+    <bands>
+        <band product="sr_refl" source="toa_refl" name="sr_band1" category="image" data_type="INT16" nlines="1094" nsamps="1057" fill_value="-9999" saturate_value="20000" scale_factor="0.000100" add_offset="0.000000">
+            <short_name>LT5SR</short_name>
+            <long_name>band 1 surface reflectance</long_name>
+            <file_name>LT51980241990098KIS00_sr_band1.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>reflectance</data_units>
+            <valid_range min="-2000" max="16000"/>
+            <calibrated_nt>5.000000</calibrated_nt>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_band2" category="image" data_type="INT16" nlines="1094" nsamps="1057" fill_value="-9999" saturate_value="20000" scale_factor="0.000100" add_offset="0.000000">
+            <short_name>LT5SR</short_name>
+            <long_name>band 2 surface reflectance</long_name>
+            <file_name>LT51980241990098KIS00_sr_band2.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>reflectance</data_units>
+            <valid_range min="-2000" max="16000"/>
+            <calibrated_nt>5.000000</calibrated_nt>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_band3" category="image" data_type="INT16" nlines="1094" nsamps="1057" fill_value="-9999" saturate_value="20000" scale_factor="0.000100" add_offset="0.000000">
+            <short_name>LT5SR</short_name>
+            <long_name>band 3 surface reflectance</long_name>
+            <file_name>LT51980241990098KIS00_sr_band3.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>reflectance</data_units>
+            <valid_range min="-2000" max="16000"/>
+            <calibrated_nt>5.000000</calibrated_nt>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_band4" category="image" data_type="INT16" nlines="1094" nsamps="1057" fill_value="-9999" saturate_value="20000" scale_factor="0.000100" add_offset="0.000000">
+            <short_name>LT5SR</short_name>
+            <long_name>band 4 surface reflectance</long_name>
+            <file_name>LT51980241990098KIS00_sr_band4.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>reflectance</data_units>
+            <valid_range min="-2000" max="16000"/>
+            <calibrated_nt>5.000000</calibrated_nt>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_band5" category="image" data_type="INT16" nlines="1094" nsamps="1057" fill_value="-9999" saturate_value="20000" scale_factor="0.000100" add_offset="0.000000">
+            <short_name>LT5SR</short_name>
+            <long_name>band 5 surface reflectance</long_name>
+            <file_name>LT51980241990098KIS00_sr_band5.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>reflectance</data_units>
+            <valid_range min="-2000" max="16000"/>
+            <calibrated_nt>5.000000</calibrated_nt>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_band7" category="image" data_type="INT16" nlines="1094" nsamps="1057" fill_value="-9999" saturate_value="20000" scale_factor="0.000100" add_offset="0.000000">
+            <short_name>LT5SR</short_name>
+            <long_name>band 7 surface reflectance</long_name>
+            <file_name>LT51980241990098KIS00_sr_band7.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>reflectance</data_units>
+            <valid_range min="-2000" max="16000"/>
+            <calibrated_nt>5.000000</calibrated_nt>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_atmos_opacity" category="image" data_type="INT16" nlines="1094" nsamps="1057" fill_value="-9999" scale_factor="0.001000">
+            <short_name>LT5SR</short_name>
+            <long_name>atmos_opacity</long_name>
+            <file_name>LT51980241990098KIS00_sr_atmos_opacity.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>reflectance</data_units>
+            <valid_range min="-2000" max="16000"/>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_fill_qa" category="qa" data_type="UINT8" nlines="1094" nsamps="1057">
+            <short_name>LT5SR</short_name>
+            <long_name>fill_qa</long_name>
+            <file_name>LT51980241990098KIS00_sr_fill_qa.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>quality/feature classification</data_units>
+            <valid_range min="0" max="255"/>
+            <class_values>
+                <class num="0">fill</class>
+                <class num="255">not fill</class>
+            </class_values>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_ddv_qa" category="qa" data_type="UINT8" nlines="1094" nsamps="1057">
+            <short_name>LT5SR</short_name>
+            <long_name>ddv_qa</long_name>
+            <file_name>LT51980241990098KIS00_sr_ddv_qa.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>quality/feature classification</data_units>
+            <valid_range min="0" max="255"/>
+            <class_values>
+                <class num="0">dark dense vegetation</class>
+                <class num="255">not dark dense vegetation</class>
+            </class_values>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_cloud_qa" category="qa" data_type="UINT8" nlines="1094" nsamps="1057">
+            <short_name>LT5SR</short_name>
+            <long_name>cloud_qa</long_name>
+            <file_name>LT51980241990098KIS00_sr_cloud_qa.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>quality/feature classification</data_units>
+            <valid_range min="0" max="255"/>
+            <class_values>
+                <class num="0">cloud</class>
+                <class num="255">not cloud</class>
+            </class_values>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_cloud_shadow_qa" category="qa" data_type="UINT8" nlines="1094" nsamps="1057">
+            <short_name>LT5SR</short_name>
+            <long_name>cloud_shadow_qa</long_name>
+            <file_name>LT51980241990098KIS00_sr_cloud_shadow_qa.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>quality/feature classification</data_units>
+            <valid_range min="0" max="255"/>
+            <class_values>
+                <class num="0">cloud shadow</class>
+                <class num="255">not cloud shadow</class>
+            </class_values>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_snow_qa" category="qa" data_type="UINT8" nlines="1094" nsamps="1057">
+            <short_name>LT5SR</short_name>
+            <long_name>snow_qa</long_name>
+            <file_name>LT51980241990098KIS00_sr_snow_qa.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>quality/feature classification</data_units>
+            <valid_range min="0" max="255"/>
+            <class_values>
+                <class num="0">snow</class>
+                <class num="255">not snow</class>
+            </class_values>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_land_water_qa" category="qa" data_type="UINT8" nlines="1094" nsamps="1057">
+            <short_name>LT5SR</short_name>
+            <long_name>land_water_qa</long_name>
+            <file_name>LT51980241990098KIS00_sr_land_water_qa.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>quality/feature classification</data_units>
+            <valid_range min="0" max="255"/>
+            <class_values>
+                <class num="0">land</class>
+                <class num="255">water</class>
+            </class_values>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="sr_refl" source="toa_refl" name="sr_adjacent_cloud_qa" category="qa" data_type="UINT8" nlines="1094" nsamps="1057">
+            <short_name>LT5SR</short_name>
+            <long_name>adjacent_cloud_qa</long_name>
+            <file_name>LT51980241990098KIS00_sr_adjacent_cloud_qa.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>quality/feature classification</data_units>
+            <valid_range min="0" max="255"/>
+            <class_values>
+                <class num="0">adjacent cloud</class>
+                <class num="255">not adjacent cloud</class>
+            </class_values>
+            <app_version>LEDAPS_2.1.0</app_version>
+            <production_date>2015-01-07T18:12:28Z</production_date>
+        </band>
+        <band product="cfmask" source="toa_refl" name="cfmask" category="qa" data_type="UINT8" nlines="1094" nsamps="1057" fill_value="255">
+            <short_name>LT5CFMASK</short_name>
+            <long_name>cfmask_band</long_name>
+            <file_name>LT51980241990098KIS00_cfmask.tif</file_name>
+            <pixel_size x="30" y="30" units="meters"/>
+            <resample_method>nearest neighbor</resample_method>
+            <data_units>quality/feature classification</data_units>
+            <valid_range min="0" max="4"/>
+            <class_values>
+                <class num="0">clear</class>
+                <class num="1">water</class>
+                <class num="2">cloud_shadow</class>
+                <class num="3">snow</class>
+                <class num="4">cloud</class>
+                <class num="255">fill</class>
+            </class_values>
+            <app_version>cfmask_1.4.2</app_version>
+            <production_date>2015-01-07T18:19:45Z</production_date>
+        </band>
+    </bands>
+</espa_metadata>
