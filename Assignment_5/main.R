@@ -10,13 +10,16 @@ library(raster)
 source('R/Functions_lesson_5.R')
 
 ## Pre-Processing steps
+## Download Data
+download.file(url="https://www.dropbox.com/s/akb9oyye3ee92h3/LT51980241990098-SC20150107121947.tar.gz?dl=1", destfile='Data/Landsat5.tar.gz', method='auto', mode= 'wb')
+download.file(url="https://www.dropbox.com/s/i1ylsft80ox6a32/LC81970242014109-SC20141230042441.tar.gz?dl=1", destfile ='Data/Landsat8.tar.gz', method='auto', mode = 'wb')
 
 ## unpacking data
-Landsat5 <- untar("Data/LT51980241990098-SC20150107121947.tar.gz", exdir = 'Data/Landsat5')
+Landsat5 <- untar("Data/Landsat5.tar.gz", exdir = 'Data/Landsat5')
 list_landsat5 <- list.files(pattern = '^.*\\.tif$', path = 'Data/Landsat5', full.names=TRUE)
 landsat5_bands <- stack(list_landsat5)
 
-Landsat8 <- untar("Data/LC81970242014109-SC20141230042441.tar.gz", exdir = 'Data/Landsat8')
+Landsat8 <- untar("Data/Landsat8.tar.gz", exdir = 'Data/Landsat8')
 list_landsat8 <- list.files(pattern = '^.*\\.tif$', path='Data/Landsat8', full.names=TRUE)
 landsat8_bands <- stack(list_landsat8)
 
