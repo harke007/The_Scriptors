@@ -6,9 +6,8 @@
 ## while for OLI (Landsat 8), Red is band4 and NIR is band5.
 
 ##input r scripts
-source('R/Mask_Out_Cloud_Cover_NDVI.R')
-source('R/NDVI_calculation.R')
-source('R/NDVI_diff.R')
+library(raster)
+source('R/Functions_lesson_5.R')
 
 ## Pre-Processing steps
 
