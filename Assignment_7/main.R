@@ -5,10 +5,12 @@
 library(raster)
 library(tmap)
 library(RColorBrewer)
+library(grid)
 
 ## notes change level to 1 for provinces and 2 for municipalities
 
 ## Downloading data
+dir.create("data")
 download.file(url="https://raw.githubusercontent.com/GeoScripting-WUR/VectorRaster/gh-pages/data/MODIS.zip", destfile = 'data/modis.zip', method = 'auto', mode = 'wb')
 unzip('data/modis.zip', exdir='data')
 nlMunicipality <- getData('GADM',country='NLD', level=2, path = 'data/') ##change here 1 for province 2 for municipality
@@ -30,29 +32,57 @@ MaxJanuary <- januaryNDVI_NL$NAME_2[[which.max(januaryNDVI_NL$January)]]
 MaxAugust <- augustNDVI_NL$NAME_2[[which.max(augustNDVI_NL$August)]]
 MaxAverage <- averageNDVI_NL$NAME_2[[which.max(averageNDVI_NL$layer)]]
 
-#Plot a map and save it to the data folder
+##Create colorramp
+
 colorgrade <- brewer.pal(n=9, "YlGn")
-par(mfrow=c(1,3))
+
+# Create the highlited area's (TF = TRUEFALSE list if name_2 equals the greenest area)
+TFMaxJanuary<-januaryNDVI_NL$NAME_2 == MaxJanuary
+subsetMaxJanuary<-januaryNDVI_NL[TFMaxJanuary,]
+
+TFMaxAugust<-augustNDVI_NL$NAME_2 == MaxAugust
+subsetMaxAugust<-januaryNDVI_NL[TFMaxAugust,]
+
+TFMaxAverage<-averageNDVI_NL$NAME_2 == MaxAverage
+subsetMaxAverage<-averageNDVI_NL[TFMaxAverage,]
+
+##create the plots
+plot1 <-
 tm_shape(januaryNDVI_NL)+
-  tm_fill(col="January", palette = colorgrade, style = "cont",title = "NDVI of January ")+
+  tm_fill(col="January", palette = colorgrade, style = "cont",title = "NDVI")+
   tm_borders()+
-  tm_legend(position = c("left", "bottom"), frame=TRUE, scale=0.9)+
-  tm_credits(paste("The greenest area is", MaxJanuary),position = c("left", "top"), size = 1.1)+
-  tmap_mode(mode= "plot")
-save_tmap(filename = "data/JanuaryNDVI.jpeg")
+  tm_legend(frame=TRUE)+
+  tm_credits(paste("The greenest area is", MaxJanuary),position = c("left", "bottom"),col="red")+
+  tmap_mode(mode= "plot")+
+    tm_shape(subsetMaxJanuary)+
+      tm_borders(col="red")
+save_tmap(tm = plot1, filename = "data/JanuaryNDVI.jpeg")
 
+plot2 <-
 tm_shape(augustNDVI_NL)+
-  tm_fill(col="August", palette = colorgrade, style = "cont",title = "NDVI of August ")+
+  tm_fill(col="August", palette = colorgrade, style = "cont",title = "NDVI")+
   tm_borders()+
-  tm_legend(position = c("left", "bottom"), frame=TRUE)+
-  tm_credits(paste("The greenest area is", MaxAugust),position = c("left", "top"), size = 1)+
-  tmap_mode(mode= "plot")
-save_tmap(filename = "data/AugustNDVI.jpeg")
+  tm_legend(frame=TRUE)+
+  tm_credits(paste("The greenest area is", MaxAugust),position = c("left", "bottom"),col="red")+
+  tmap_mode(mode= "plot")+
+    tm_shape(subsetMaxAugust)+
+      tm_borders(col="red")
+save_tmap(tm = plot2, filename = "data/AugustNDVI.jpeg")
 
+plot3 <- 
 tm_shape(averageNDVI_NL)+
-  tm_fill(col="layer", palette = colorgrade, style = "cont",title = "The average NDVI ")+
+  tm_fill(col="layer", palette = colorgrade, style = "cont",title = "NDVI")+
   tm_borders()+
-  tm_legend(position = c("left", "bottom"), frame=TRUE)+
-  tm_credits(paste("The greenest area is", MaxAverage),position = c("left", "top"), size = 1)+
-  tmap_mode(mode= "plot")
-save_tmap(filename = "data/AverageNDVI.jpeg")
+  tm_legend(frame=TRUE)+
+  tm_credits(paste("The greenest area is", MaxAverage),position = c("left", "bottom"),col="red")+
+  tmap_mode(mode= "plot")+
+    tm_shape(subsetMaxAverage)+
+      tm_borders(col="red")
+save_tmap(tm = plot3, filename = "data/AverageNDVI.jpeg")
+
+#plot maps next to each other
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(1,3)))
+print(plot1, vp=viewport(layout.pos.col = 1))
+print(plot2, vp=viewport(layout.pos.col = 2))
+print(plot3, vp=viewport(layout.pos.col = 3))
