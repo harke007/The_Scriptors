@@ -27,7 +27,7 @@ januaryNDVI_NL <- extract(modis_data[[1]]*0.0001, nlMunicipalityReprojected,fun=
 augustNDVI_NL <- extract(modis_data[[8]]*0.0001,nlMunicipalityReprojected,fun=mean,na.rm=TRUE,sp=TRUE)
 averageNDVI_NL <- extract(mean(modis_data, na.rm=TRUE)*0.0001,nlMunicipalityReprojected,fun=mean,na.rm=TRUE,sp=TRUE)
 
-## Select the max and change here 1 for province 2 for municipality
+## Select the max
 MaxJanuary <- januaryNDVI_NL[which.max(januaryNDVI_NL$January),]
 MaxAugust <- augustNDVI_NL[which.max(augustNDVI_NL$August),]
 MaxAverage <- averageNDVI_NL[which.max(averageNDVI_NL$layer),]
