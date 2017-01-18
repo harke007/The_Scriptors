@@ -41,7 +41,7 @@ TFMaxJanuary<-januaryNDVI_NL$NAME_2 == MaxJanuary
 subsetMaxJanuary<-januaryNDVI_NL[TFMaxJanuary,]
 
 TFMaxAugust<-augustNDVI_NL$NAME_2 == MaxAugust
-subsetMaxAugust<-januaryNDVI_NL[TFMaxAugust,]
+subsetMaxAugust<-augustNDVI_NL[TFMaxAugust,]
 
 TFMaxAverage<-averageNDVI_NL$NAME_2 == MaxAverage
 subsetMaxAverage<-averageNDVI_NL[TFMaxAverage,]
