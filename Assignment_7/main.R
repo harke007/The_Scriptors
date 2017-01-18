@@ -23,28 +23,18 @@ modis_data <- brick(modis)
 nlMunicipalityReprojected <- spTransform(nlMunicipality, CRS(proj4string(modis_data)))
 
 ## Selecting required months (0.001 is the modis scalingfactor to get NDVI in the range 0..1)
-januaryNDVI_NL = extract(modis_data[[1]]*0.0001, nlMunicipalityReprojected,fun=mean,na.rm=TRUE,sp=TRUE)
-augustNDVI_NL = extract(modis_data[[8]]*0.0001,nlMunicipalityReprojected,fun=mean,na.rm=TRUE,sp=TRUE)
-averageNDVI_NL = extract(mean(modis_data, na.rm=TRUE)*0.0001,nlMunicipalityReprojected,fun=mean,na.rm=TRUE,sp=TRUE)
+januaryNDVI_NL <- extract(modis_data[[1]]*0.0001, nlMunicipalityReprojected,fun=mean,na.rm=TRUE,sp=TRUE)
+augustNDVI_NL <- extract(modis_data[[8]]*0.0001,nlMunicipalityReprojected,fun=mean,na.rm=TRUE,sp=TRUE)
+averageNDVI_NL <- extract(mean(modis_data, na.rm=TRUE)*0.0001,nlMunicipalityReprojected,fun=mean,na.rm=TRUE,sp=TRUE)
 
 ## Select the max and change here 1 for province 2 for municipality
-MaxJanuary <- januaryNDVI_NL$NAME_2[[which.max(januaryNDVI_NL$January)]]
-MaxAugust <- augustNDVI_NL$NAME_2[[which.max(augustNDVI_NL$August)]]
-MaxAverage <- averageNDVI_NL$NAME_2[[which.max(averageNDVI_NL$layer)]]
+MaxJanuary <- januaryNDVI_NL[which.max(januaryNDVI_NL$January),]
+MaxAugust <- augustNDVI_NL[which.max(augustNDVI_NL$August),]
+MaxAverage <- averageNDVI_NL[which.max(averageNDVI_NL$layer),]
 
 ##Create colorramp
 
 colorgrade <- brewer.pal(n=9, "YlGn")
-
-# Create the highlited area's (TF = TRUEFALSE list if name_2 equals the greenest area)
-TFMaxJanuary<-januaryNDVI_NL$NAME_2 == MaxJanuary
-subsetMaxJanuary<-januaryNDVI_NL[TFMaxJanuary,]
-
-TFMaxAugust<-augustNDVI_NL$NAME_2 == MaxAugust
-subsetMaxAugust<-augustNDVI_NL[TFMaxAugust,]
-
-TFMaxAverage<-averageNDVI_NL$NAME_2 == MaxAverage
-subsetMaxAverage<-averageNDVI_NL[TFMaxAverage,]
 
 ##create the plots
 plot1 <-
@@ -52,9 +42,9 @@ tm_shape(januaryNDVI_NL)+
   tm_fill(col="January", palette = colorgrade, style = "cont",title = "NDVI")+
   tm_borders()+
   tm_legend(frame=TRUE)+
-  tm_credits(paste("The greenest area is", MaxJanuary),position = c("left", "bottom"),col="red")+
+  tm_credits(paste("The greenest area is", MaxJanuary$NAME_2),position = c("left", "bottom"),col="red")+
   tmap_mode(mode= "plot")+
-    tm_shape(subsetMaxJanuary)+
+    tm_shape(MaxJanuary)+
       tm_borders(col="red")
 save_tmap(tm = plot1, filename = "data/JanuaryNDVI.jpeg")
 
@@ -63,9 +53,9 @@ tm_shape(augustNDVI_NL)+
   tm_fill(col="August", palette = colorgrade, style = "cont",title = "NDVI")+
   tm_borders()+
   tm_legend(frame=TRUE)+
-  tm_credits(paste("The greenest area is", MaxAugust),position = c("left", "bottom"),col="red")+
+  tm_credits(paste("The greenest area is", MaxAugust$NAME_2),position = c("left", "bottom"),col="red")+
   tmap_mode(mode= "plot")+
-    tm_shape(subsetMaxAugust)+
+    tm_shape(MaxAugust)+
       tm_borders(col="red")
 save_tmap(tm = plot2, filename = "data/AugustNDVI.jpeg")
 
@@ -74,9 +64,9 @@ tm_shape(averageNDVI_NL)+
   tm_fill(col="layer", palette = colorgrade, style = "cont",title = "NDVI")+
   tm_borders()+
   tm_legend(frame=TRUE)+
-  tm_credits(paste("The greenest area is", MaxAverage),position = c("left", "bottom"),col="red")+
+  tm_credits(paste("The greenest area is", MaxAverage$NAME_2),position = c("left", "bottom"),col="red")+
   tmap_mode(mode= "plot")+
-    tm_shape(subsetMaxAverage)+
+    tm_shape(MaxAverage)+
       tm_borders(col="red")
 save_tmap(tm = plot3, filename = "data/AverageNDVI.jpeg")
 
