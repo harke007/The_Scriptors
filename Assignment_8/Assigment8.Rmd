@@ -1,12 +1,25 @@
-## title: "Assigment 8 The Scriptors"
-## author: "Jelle ten Harkel & Thijs van Loon"
-## date: "19 januari 2017"
+---
+title: "Assigment 8 The Scriptors"
+author: "Jelle ten Harkel & Thijs van Loon"
+date: "19 januari 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 
 #### The needed libraries
+```{r include=TRUE, message=FALSE}
 library(raster)
 library(RColorBrewer)
+library(knitr)
 source("R/Functions.R")
+```
 
+
+```{r load data, include=FALSE}
 load("data/GewataB1.rda")
 load("data/GewataB2.rda")
 load("data/GewataB3.rda")
@@ -15,7 +28,9 @@ load("data/GewataB5.rda")
 load("data/GewataB7.rda")
 load("data/vcfGewata.rda")
 load("data/trainingPoly.rda")
+```
 
+```{r calculations, include=FALSE}
 gewata <- brick(GewataB1, GewataB2, GewataB3, GewataB4, GewataB5, GewataB7)
 gewata <- calc(gewata, fun=function(x) x / 10000)
 
@@ -25,8 +40,10 @@ vcfGewata[vcfGewata < 0] <- NA
 covs <- addLayer(gewata, vcfGewata)
 names(covs) <- c("band1","band2","band3","band4","band5","band7","VCF")
 df <- as.data.frame(getValues(covs))
+```
 
-## Analysis of the scatterplots
+#### Analysis of the scatterplots  
+```{r scatterplots, echo=FALSE,warning=FALSE}
 par(mfrow=c(2,3))
 
 plot(GewataB1,vcfGewata, col="blue")
@@ -35,13 +52,22 @@ plot(GewataB3,vcfGewata, col="red")
 plot(GewataB4,vcfGewata, col="purple")
 plot(GewataB5,vcfGewata, col="orange")
 plot(GewataB7,vcfGewata, col="grey")
+```
 
+#### Summary of our model
+As can be seen band 7 has a low significance, it has been removed from the model
+
+```{r linear model, echo=FALSE}
 #Create the model
 LMmodel <- lm(VCF ~ band1 + band2 + band3 + band4 + band5 + band7, data = df)
 summary(LMmodel)
 ## We eliminate band 7, because low significance
 LMmodel <- lm(VCF ~ band1 + band2 + band3 + band4 + band5, data = df)
+```  
 
+
+#### Plot our predicted VCF and the original VCF
+```{r calculate, echo=FALSE}
 ## Predict tree cover
 par(mfrow = c(1,2), oma=c(0,0,0,1))
 predTC <- predict(covs,model=LMmodel, na.rm=TRUE)
@@ -49,16 +75,28 @@ predTC[predTC > 100] <- NA
 predTC[predTC < 0] <- NA
 plot(predTC, main="The predicted VCF",legend=FALSE)
 plot(vcfGewata, main="The original VCF")
+```
 
-##Plot scatter
-par(mfrow = c(1,1))
+#### Summary  
+```{r, echo=FALSE, warning=FALSE}
 plot(vcfGewata,predTC,col="darkgreen",xlab="Original VCF [%]", ylab="Predicted VCF [%]")
+```
 
-##m Calculate rmse
+Looking at the scatterplot between the original and predicted VCF, we can see that the prediction overall is quite correct. 
+The cloud looks to be on a angle of 45 degrees. Therefore there is a relatively high correlation. 
+Low values of the original VCF are harder to predict, and higher values are easier to get right. 
+There are only a few locations with a VCF of lower than 5%  
+
+
+```{r make dataframes, include=FALSE}
 predTC_df <- as.data.frame(predTC)
 vcfGewata_df <- as.data.frame(vcfGewata)
+```
+```{r calculate rmse, echo=FALSE}
 rmse <- rmse2(vcfGewata_df,predTC_df)
+```
 
+```{r, include=FALSE}
 ## calculate rmse per landtype
 trainingPoly@data$Code <- as.numeric(trainingPoly@data$Class)
 classes <- rasterize(trainingPoly,covs, field='Code')
@@ -68,11 +106,19 @@ rmse_PC <- zonal(rmse_PP,classes,fun="mean")
 
 ## drop unnecessary column
 rmse_PC <- rmse_PC[,2]
-
 ## make it a matrix again
 rmse_PC <- matrix(unlist(rmse_PC), ncol = 1, byrow = TRUE)
 rmse_PC <- rbind(rmse_PC,rmse)
-
 ## change column names
 rownames(rmse_PC) <-c("cropland", "forest", "wetland","overall")
 colnames(rmse_PC) <- ("RMSE")
+```
+  
+#### All the RMSE values  
+```{r, echo=FALSE,results='asis'}
+kable(rmse_PC)
+```
+
+In this table, we see that the overall RMSE is higher than the RMSE of cropland and forest. Only the RMSE of 
+wetland higher. We also see that the RMSE of forest is roughly half the size of the overall RMSE, which is good thing
+because VCF is a indicator for forest.
