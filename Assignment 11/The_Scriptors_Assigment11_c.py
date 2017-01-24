@@ -4,11 +4,11 @@ import folium
 import subprocess
 
 # set wd for linux
-#os.chdir('data')
+os.chdir('./data')
 os.getcwd()
 
 #set wd for windows
-os.chdir('.\data')
+#os.chdir('.\data')
 
 #iniatilise variables
 go = True
