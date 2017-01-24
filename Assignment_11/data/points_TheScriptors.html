@@ -110,7 +110,7 @@
             
         
             
-            <style> #map_26b71382da1543e78e6b22ac18f5d4d2 {
+            <style> #map_5728d573562844f9bd776156e70f26c8 {
                 position : relative;
                 width : 100.0%;
                 height: 100.0%;
@@ -126,7 +126,7 @@
             
         
             
-            <div class="folium-map" id="map_26b71382da1543e78e6b22ac18f5d4d2" ></div>
+            <div class="folium-map" id="map_5728d573562844f9bd776156e70f26c8" ></div>
         
         
         
@@ -140,7 +140,7 @@
             var northEast = L.latLng(90, 180);
             var bounds = L.latLngBounds(southWest, northEast);
 
-            var map_26b71382da1543e78e6b22ac18f5d4d2 = L.map('map_26b71382da1543e78e6b22ac18f5d4d2', {
+            var map_5728d573562844f9bd776156e70f26c8 = L.map('map_5728d573562844f9bd776156e70f26c8', {
                                            center:[52,5.7],
                                            zoom: 10,
                                            maxBounds: bounds,
@@ -151,7 +151,7 @@
         
         
             
-            var tile_layer_60999d948bd740fa9f5e0806092bb113 = L.tileLayer(
+            var tile_layer_b281cde6da584eb689f842d0ef825bee = L.tileLayer(
                 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 {
                     maxZoom: 18,
@@ -159,15 +159,15 @@
                     attribution: 'Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
                     detectRetina: false
                     }
-                ).addTo(map_26b71382da1543e78e6b22ac18f5d4d2);
+                ).addTo(map_5728d573562844f9bd776156e70f26c8);
 
         
         
             
-                var geo_json_79f5ee5a051b49da8d621347f6eb9dae = L.geoJson(
+                var geo_json_cf3a4be605854c108b9e7f11b2bfc981 = L.geoJson(
                     {"crs": {"properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}, "type": "name"}, "features": [{"geometry": {"coordinates": [5.66631, 51.987402], "type": "Point"}, "properties": {"FID": 0, "style": {"color": "black", "fillColor": "blue", "fillOpacity": 0.6, "opactiy": 1, "weight": 1}}, "type": "Feature"}, {"geometry": {"coordinates": [5.667865, 51.981757], "type": "Point"}, "properties": {"FID": 1, "style": {"color": "black", "fillColor": "blue", "fillOpacity": 0.6, "opactiy": 1, "weight": 1}}, "type": "Feature"}], "type": "FeatureCollection"})
-                    .addTo(map_26b71382da1543e78e6b22ac18f5d4d2);
-                geo_json_79f5ee5a051b49da8d621347f6eb9dae.setStyle(function(feature) {return feature.properties.style;});
+                    .addTo(map_5728d573562844f9bd776156e70f26c8);
+                geo_json_cf3a4be605854c108b9e7f11b2bfc981.setStyle(function(feature) {return feature.properties.style;});
             
         
         
