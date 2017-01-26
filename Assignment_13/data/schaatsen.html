@@ -1,0 +1,216 @@
+
+        <!DOCTYPE html>
+        <head>
+            
+        
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://raw.githubusercontent.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css" />
+        
+        
+        
+            
+            <style>
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                }
+
+            #map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+            
+        
+            
+            <style> #map_36cee0d2f64f4d1087e016f1b056b2b1 {
+                position : relative;
+                width : 100.0%;
+                height: 100.0%;
+                left: 0.0%;
+                top: 0.0%;
+                }
+            </style>
+        
+        
+        
+        </head>
+        <body>
+            
+        
+            
+            <div class="folium-map" id="map_36cee0d2f64f4d1087e016f1b056b2b1" ></div>
+        
+        
+        
+        </body>
+        <script>
+            
+        
+            
+
+            var southWest = L.latLng(-90, -180);
+            var northEast = L.latLng(90, 180);
+            var bounds = L.latLngBounds(southWest, northEast);
+
+            var map_36cee0d2f64f4d1087e016f1b056b2b1 = L.map('map_36cee0d2f64f4d1087e016f1b056b2b1', {
+                                           center:[52.667989,5.311447],
+                                           zoom: 6,
+                                           maxBounds: bounds,
+                                           layers: [],
+                                           crs: L.CRS.EPSG3857
+                                         });
+            
+        
+        
+            
+            var tile_layer_e65f2902b0de4a9487ff12e71065bd5d = L.tileLayer(
+                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                {
+                    maxZoom: 18,
+                    minZoom: 1,
+                    attribution: 'Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
+                    detectRetina: false
+                    }
+                ).addTo(map_36cee0d2f64f4d1087e016f1b056b2b1);
+
+        
+        
+            
+
+            var marker_fc552ce1536241f8a2f758d8629bde3b = L.marker(
+                [52.51666667,5.86111111],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_36cee0d2f64f4d1087e016f1b056b2b1);
+            
+        
+            
+            var popup_e3af761591e7471199812e17bf2546f6 = L.popup({maxWidth: '300'});
+
+            
+                var html_879028b24ba2472db3e4d0531760e0d4 = $('         <div id="html_879028b24ba2472db3e4d0531760e0d4"                 style="width: 100.0%; height: 100.0%;">                 Drontermeer #schaatsen #natuurijs #klappenmaken #ijs #natuur @ Drontermeer https://t.co/z5MX7ctZxP</div>                 ')[0];
+                popup_e3af761591e7471199812e17bf2546f6.setContent(html_879028b24ba2472db3e4d0531760e0d4);
+            
+
+            marker_fc552ce1536241f8a2f758d8629bde3b.bindPopup(popup_e3af761591e7471199812e17bf2546f6);
+
+            
+        
+        
+            
+
+            var marker_f1e19c1d8e3b4232a2ed663383a5b8d8 = L.marker(
+                [51.51354816,4.80770258],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_36cee0d2f64f4d1087e016f1b056b2b1);
+            
+        
+            
+            var popup_c479e7c1f80c4c33b0703c40847b1fba = L.popup({maxWidth: '300'});
+
+            
+                var html_56958cb4bab54dac9fe29ac37cdf40c2 = $('         <div id="html_56958cb4bab54dac9fe29ac37cdf40c2"                 style="width: 100.0%; height: 100.0%;">                 #natuurijs #schaatsen xemvdput #nikonnl @ Rondven Chaam https://t.co/P5rAgcZV4k</div>                 ')[0];
+                popup_c479e7c1f80c4c33b0703c40847b1fba.setContent(html_56958cb4bab54dac9fe29ac37cdf40c2);
+            
+
+            marker_f1e19c1d8e3b4232a2ed663383a5b8d8.bindPopup(popup_c479e7c1f80c4c33b0703c40847b1fba);
+
+            
+        
+        
+        
+        </script>
+        
