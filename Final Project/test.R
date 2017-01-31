@@ -1,8 +1,14 @@
+## The Scriptors, Thijs van Loon, Jelle ten Harkel
+## Final project
+## Date 02-02-2017
+
 library(rgdal)
 library(sp)
 library(SearchTrees)
+library(maptools)
+library(raster)
 
-LocAdress <- "Nedereindseweg 215"
+LocAdress <- "Rivierdijk 463"
 LocCoord_WGS <- geocode(location = LocAdress, source = "google", output = "latlon")
 
 CRS_WGS <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
@@ -25,12 +31,18 @@ file.remove('data/Doorbraaklocaties.zip', 'data/wfsrequest.txt')
 doorbraak <- readOGR("data","Doorbraaklocaties")
 doorbraak <- spTransform(doorbraak,CRS_WGS)
 
-tree <- createTree(coordinates(doorbraak))
+## Intersect, byid to get a list of true and false(inside or outside the buffer)
+dike2 <- intersect(dijkring, LocCoord_WGS_spdf)
+
+dikenr <- dike2$DIJKRINGNR
+dikenr <- levels(droplevels(dikenr))
+test<- doorbraak[doorbraak$DIJKRINGNR==dikenr,]
+
+tree <- createTree(coordinates(test))
 inds <- knnLookup(tree, newdat=coordinates(LocCoord_WGS_spdf), k=1)
-point <- doorbraak[inds[1,],]
-dijkringnr <- point$DIJKRINGNR
-dijkringnr <- levels(droplevels(dijkringnr))
-doorbraak_dijkring <- doorbraak[doorbraak$DIJKRINGNR==dijkringnr,]
+point <- test[inds[1,],]
+
+doorbraak_dijkring <- test[test$DIJKRINGNR==dikenr,]
 doorbraak_dijkring$nearest <- ifelse(doorbraak_dijkring$ID == point$ID,1,0)
 
 

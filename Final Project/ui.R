@@ -1,4 +1,11 @@
+## The Scriptors, Thijs van Loon, Jelle ten Harkel
+## Final project
+## Date 02-02-2017
+
+## Import library(leaflet) to let leafletOutput work
 library(leaflet)
+
+## User interface for the shiny application
 ui <- fluidPage(
   titlePanel("What is the waterdepth for my adress?"),
   sidebarLayout(
@@ -17,6 +24,7 @@ ui <- fluidPage(
 
 
     ),
+# The leaflet plot area
     mainPanel(
       leafletOutput("mymap", height= 617, width = '100%')
     )
