@@ -31,6 +31,7 @@ BreachIconList <- iconList(
   Far = makeIcon(iconUrl = 'data/damFar.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                  shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
                  popupAnchorX = 0, popupAnchorY = -37) )
+
 HospitalIconList <- iconList(
   Near = makeIcon(iconUrl = 'data/hospitalNear.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                   shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
@@ -60,12 +61,12 @@ server <- function(input, output, session) {
   # From the coordinates from LocCoord_WGS(), get the nearest hospital
   hospitals <-eventReactive(input$GetLoc, {
     hospital_func(LocCoord_WGS())
-  })
+    })
   
- # From the coordinates from LocCoord_WGS(), get the closest breach location and breach locations on the same dike  
+  # From the coordinates from LocCoord_WGS(), get the closest breach location and breach locations on the same dike  
   closest_breach <- eventReactive(input$GetLoc, {
     closest_breach_func(LocCoord_WGS())
-  })  
+    })  
 
  # From the breaches out closest_breach(), get the corresponding dike
  dikes <- eventReactive(input$GetLoc,{
@@ -75,7 +76,7 @@ server <- function(input, output, session) {
  # From the coordinates from LocCoord_WGS(), get the nearest 5 safe location.
  safe_spot <-eventReactive(input$info, {
    dry_places_func(LocCoord_WGS())
- })
+   })
   
  # initial ouput of the leaflet map
   output$mymap <- renderLeaflet({
@@ -100,7 +101,7 @@ server <- function(input, output, session) {
   # code to add the hospitals to the map
   observeEvent(input$GetLoc, {
     leafletProxy("mymap")%>%
-      addMarkers(data=hospitals(), popup= paste(hospitals()$locatienaa,hospitals()$plaats))
+      addMarkers(data=hospitals(), popup= paste(hospitals()$naam_kaart,",<br>",hospitals()$plaats,",<br>",paste0("<a href=",hospitals()$web_text),"target='_blank'>Website of the hospital"), icon = HospitalIconList[hospitals()$nearest])
   })
 
   # This code will check the output from dikes() for string data and then decides what to plot. 

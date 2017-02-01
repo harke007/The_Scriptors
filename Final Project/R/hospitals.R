@@ -2,11 +2,9 @@
 ## Final project
 ## Date 02-02-2017
 hospital_func <- function(x){
-  
-  LocAdress <- "Nedereindseweg 215"
-  x <- geocode(location = LocAdress, source = "google", output = "latlon")
   CRS_WGS <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
   hospitals <- readOGR("data","hospitals_2013")
+  hospitals <- hospitals[hospitals$soort_omsc!="Buitenpolikliniek",]
   hospitals <- spTransform(hospitals,CRS_WGS)
   
   # Make it a SpatialPointsDataFrame
@@ -21,6 +19,5 @@ hospital_func <- function(x){
   # subset hospitals to the closest hospital
   hospital <- hospitals[inds[1,],]
   hospitals$nearest <- ifelse(hospitals$ziekenh_nr == hospital$ziekenh_nr,"Near","Far")
-  return(hospital)
+  return(hospitals)
 }
-
