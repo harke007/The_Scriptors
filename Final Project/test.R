@@ -8,8 +8,8 @@ library(SearchTrees)
 library(maptools)
 library(raster)
 
-LocAdress <- "Rivierdijk 463"
-LocCoord_WGS <- geocode(location = LocAdress, source = "google", output = "latlon")
+LocAdress <- "Nedereindseweg 215"
+x <- geocode(location = LocAdress, source = "google", output = "latlon")
 
 CRS_WGS <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 LocCoord_WGS_sp <- SpatialPoints(LocCoord_WGS, proj4string=CRS_WGS)
