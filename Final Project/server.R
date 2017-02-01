@@ -30,6 +30,7 @@ BreachIconList <- iconList(
   Far = makeIcon(iconUrl = 'data/damFar.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                  shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
                  popupAnchorX = 0, popupAnchorY = -37) )
+html_legend <- "<img src='http://profgeodata.basisinformatie-overstromingen.nl/geoserver/wms?service=WMS&amp;version=1.1.0&amp;request=GetLegendGraphic&amp;transparent=true&amp;height=20&amp;Format=image%2Fpng&amp;Style=waterdiepte_WV21&amp;layer=LBEO:Maximale waterdiepte NL_Group&amp;LEGEND_OPTIONS=forceLabels:on;fontSize:12;fontColor:0x111111;fontName:Verdana,Helvetica,Arial,sans-serif'>"
 
 ## Establish processes to create output to the user interface
 server <- function(input, output, session) {
@@ -54,7 +55,8 @@ server <- function(input, output, session) {
   
  # initial ouput of the leaflet map
   output$mymap <- renderLeaflet({
-    leaflet() %>% addProviderTiles("Stamen.TonerLite")
+    leaflet() %>% addProviderTiles("Stamen.TonerLite")%>%
+      addControl(html=html_legend, position = "bottomright")
   })
   
  # When actionbutton, submit adress is pushed, create leaflet map  
@@ -67,7 +69,8 @@ server <- function(input, output, session) {
       addWMSTiles(
         "http://geodata.basisinformatie-overstromingen.nl/geoserver/wms?",
         layers="LBEO:Maximale waterdiepte NL_Group",
-        options = WMSTileOptions (format= "image/png",transparent=TRUE, height=256, width=256, style="waterdiepte_WV21", opacity = 0.50))%>%
+        options = WMSTileOptions (format= "image/png",transparent=TRUE, height=256, width=256, style="waterdiepte_WV21", opacity = 0.50),
+        attribution = "Landelijk Informatiesysteem Water en Overstromingen (LIWO) 2011")%>%
       addMarkers(data=LocCoord_WGS(), popup=input$LocAdress, icon = HomeIcon)
 
   })
