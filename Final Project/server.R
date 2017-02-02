@@ -34,14 +34,14 @@ BreachIconList <- iconList(
                   popupAnchorX = 1, popupAnchorY = -32),
   Far = makeIcon(iconUrl = 'data/damFar.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                  shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
-                 popupAnchorX = 1, popupAnchorY = -32) )
+                 popupAnchorX = 1, popupAnchorY = -32))
 HospitalIconList <- iconList(
   Near = makeIcon(iconUrl = 'data/hospitalNear.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                   shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
                   popupAnchorX = 1, popupAnchorY = -32),
   Far = makeIcon(iconUrl = 'data/hospitalFar.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                  shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
-                 popupAnchorX = 1, popupAnchorY = -32) )
+                 popupAnchorX = 1, popupAnchorY = -32))
 
 ## create legend for the leafletmap
 html_legend <- "<table>
