@@ -4,10 +4,13 @@
 
 # Function to get dry places
 dry_places_func<- function(x){
+  # select only the lat lon columns
+  x<-x[,1:2]
+  
   # Get data from LocCoordWGS
   CRS_WGS <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
   LocCoord_WGS_sp <- SpatialPoints(x, proj4string=CRS_WGS)
-  df <- data.frame(cbind(id = c(1), Name = c("Zoeklocatie")))
+  df <- data.frame(cbind(id = c(1), lat=c(1), Name = c("Zoeklocatie")))
   LocCoord_WGS_spdf <- SpatialPointsDataFrame(x, data = df, proj4string = CRS_WGS)
   LocCoord_RD_spdf <- spTransform(LocCoord_WGS_spdf,CRS=CRS("+init=epsg:28992"))
   
@@ -25,8 +28,9 @@ dry_places_func<- function(x){
   download.file(url = dry_url, destfile = 'data/DryPointsTemp.zip', method = 'internal', mode='wb', quiet = TRUE)
   if (file.size("data/DryPointsTemp.zip") <  1564){ 
     file.remove('data/DryPointsTemp.zip')
-    message<-"You are on a safe position, relax!"
+    message<-"You are on higher ground"
     return(message)
+    
   # else unzip the file and remove the zip map
   } else {
     unzip('data/DryPointsTemp.zip', exdir = "data")
@@ -44,12 +48,16 @@ dry_places_func<- function(x){
     if (nk==0){
       message<-"No dry points in the neighbourhood"
       return(message)
+      
       # else calculated nearest 5 points and return those a SPDF
     } else {
       tree <- createTree(coordinates(dry_locations_WGS_spdf))
       inds <- knnLookup(tree, newdat=coordinates(LocCoord_WGS_spdf), k=min(c(5,nk)))
-      points <- dry_locations_WGS_spdf[inds[1,],]
-      return(points)
+      safespots <- dry_locations_WGS_spdf[inds[1,],]
+      
+      # get the corresponding adress to the coordinates
+      safespots$address = mapply(FUN = function(lon, lat) revgeocode(c(lon, lat)), safespots$coords.x1, safespots$coords.x2)
+      return(safespots)
     }
   }
 }

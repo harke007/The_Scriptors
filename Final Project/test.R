@@ -12,9 +12,9 @@ LocAdress <- "Nedereindseweg 215"
 x <- geocode(location = LocAdress, source = "google", output = "latlon")
 
 CRS_WGS <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-LocCoord_WGS_sp <- SpatialPoints(LocCoord_WGS, proj4string=CRS_WGS)
+LocCoord_WGS_sp <- SpatialPoints(x, proj4string=CRS_WGS)
 df <- data.frame(cbind(id = c(1), Name = c("Zoeklocatie")))
-LocCoord_WGS_spdf <- SpatialPointsDataFrame(LocCoord_WGS, data = df, proj4string = CRS_WGS)
+LocCoord_WGS_spdf <- SpatialPointsDataFrame(x, data = df, proj4string = CRS_WGS)
 
 ##Download map data
 #Dike rings

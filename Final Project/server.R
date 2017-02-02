@@ -6,11 +6,12 @@
 library(shiny)
 library(leaflet)
 library(raster)
-library (ggmap)
+library(ggmap)
 library(rgdal)
 library(sp)
 library(SearchTrees)
 library(maptools)
+library(rgeos)
 source("R/source_data.R")
 source("R/closest_locations.R")
 source("R/retrieve_dry_locations.R")
@@ -19,51 +20,55 @@ source("R/hospitals.R")
 
 ## initialise icons for the leafletmap
 HomeIcon <- makeIcon(iconUrl = 'data/flood.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
-                     shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36) 
+                     shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
+                     popupAnchorX = 1, popupAnchorY = -32) 
 SafeIcon <- makeIcon(iconUrl = 'data/safe.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
-                     shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36) 
+                     shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
+                     popupAnchorX = 1, popupAnchorY = -32) 
 BreachNearIcon <- makeIcon(iconUrl = 'data/damNear.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
-                           shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36)
+                           shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
+                           popupAnchorX = 1, popupAnchorY = -32)
 BreachIconList <- iconList(
   Near = makeIcon(iconUrl = 'data/damNear.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                   shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
-                  popupAnchorX = 0, popupAnchorY = -37),
+                  popupAnchorX = 1, popupAnchorY = -32),
   Far = makeIcon(iconUrl = 'data/damFar.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                  shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
-                 popupAnchorX = 0, popupAnchorY = -37) )
-
+                 popupAnchorX = 1, popupAnchorY = -32) )
 HospitalIconList <- iconList(
   Near = makeIcon(iconUrl = 'data/hospitalNear.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                   shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
-                  popupAnchorX = 0, popupAnchorY = -37),
+                  popupAnchorX = 1, popupAnchorY = -32),
   Far = makeIcon(iconUrl = 'data/hospitalFar.png',  iconWidth = 32, iconHeight = 37, iconAnchorX = 16, iconAnchorY = 36, 
                  shadowUrl =  'data/marker-shadow.png', shadowWidth = 51, shadowHeight = 37, shadowAnchorX = 22, shadowAnchorY = 36,
-                 popupAnchorX = 0, popupAnchorY = -37) )
+                 popupAnchorX = 1, popupAnchorY = -32) )
 
-## creat legend for the leafletmap
-html_legend <- "<table><tr><th colspan='2'><b> Icons </b></th><th><b> Max depth [m] </b></th></tr>
-<tr><td><img src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/flood.png'></td><td> Your adress </td>
-     <td rowspan='6'><div class='width: 86px; height: 100px'><img src='http://profgeodata.basisinformatie-overstromingen.nl/geoserver/wms?service=WMS&amp;version=1.1.0&amp;request=GetLegendGraphic&amp;transparent=true&amp;height=20&amp;Format=image%2Fpng&amp;Style=waterdiepte_WV21&amp;layer=LBEO:Maximale waterdiepte NL_Group&amp;LEGEND_OPTIONS=forceLabels:on;fontSize:12;fontColor:0x111111;fontName:Verdana,Helvetica,Arial,sans-serif'></div></td></tr>
-<tr><td><img src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/hospitalFar.png'></td><td> Hospitals </td></tr>
-<tr><td><img src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/hospitalNear.png'></td><td> Closest Hospital </td></tr>
-<tr><td><img src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/safe.png'></td><td> Closest 5 safe places </td></tr>
-<tr><td><img src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/damFar.png'></td><td> Possible dike breaches </td></tr>
-<tr><td><img src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/damNear.png'></td><td> Closest possible breach</td></tr></table>"
-
+## create legend for the leafletmap
+html_legend <- "<table>
+<tr><th colspan='2'><b> Icons </b></th><th><b> Max depth [m] </b></th></tr>
+<tr><td><img width='75%' height=auto src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/flood.png'></td><td width='157px'> Your adress </td>
+<td rowspan='6'><div class='width: auto; height: 242px'; style='overflow:hidden'><img style='margin-top:-70px'; src='http://profgeodata.basisinformatie-overstromingen.nl/geoserver/wms?service=WMS&amp;version=1.1.0&amp;request=GetLegendGraphic&amp;transparent=true&amp;height=20&amp;Format=image%2Fpng&amp;Style=waterdiepte_WV21&amp;layer=LBEO:Maximale waterdiepte NL_Group&amp;LEGEND_OPTIONS=forceLabels:on;fontSize:14;fontColor:0x111111;fontName:Arial'></div></td></tr>
+<tr><td><img width='75%' height=auto src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/hospitalFar.png'></td><td> Hospitals </td></tr>
+<tr><td><img width='75%' height=auto src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/hospitalNear.png'></td><td> Closest Hospital </td></tr>
+<tr><td><img width='75%' height=auto src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/safe.png'></td><td> Closest 5 safe places </td></tr>
+<tr><td><img width='75%' height=auto src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/damFar.png'></td><td> Possible dike breaches </td></tr>
+<tr><td><img width='75%' height=auto src='https://raw.githubusercontent.com/harke007/The_Scriptors/master/Final%20Project/data/damNear.png'></td><td> Closest possible breach</td></tr>
+</table>"
 
 ## Establish processes to create output to the user interface
 server <- function(input, output, session) {
  # Get coordinates from adress input
   LocCoord_WGS <- eventReactive(input$GetLoc, {
-    geocode(location = paste(input$LocAdress, ", Nederland"), source = "google", output = "latlon")
-    })
+    if(input$LocAdress == ""){geocode(location = "Onze Lieve Vrouwetoren, Amersfoort", source = "google", output = "latlona")}
+    else {geocode(location = paste0(input$LocAdress, ", Nederland"), source = "google", output = "latlona")}
+  })
   
-  # From the coordinates from LocCoord_WGS(), get the nearest hospital
+ # From the coordinates from LocCoord_WGS(), get the nearest hospital
   hospitals <-eventReactive(input$GetLoc, {
     hospital_func(LocCoord_WGS())
     })
   
-  # From the coordinates from LocCoord_WGS(), get the closest breach location and breach locations on the same dike  
+ # From the coordinates from LocCoord_WGS(), get the closest breach location and breach locations on the same dike  
   closest_breach <- eventReactive(input$GetLoc, {
     closest_breach_func(LocCoord_WGS())
     })  
@@ -81,12 +86,17 @@ server <- function(input, output, session) {
  # initial ouput of the leaflet map
   output$mymap <- renderLeaflet({
     leaflet() %>% addProviderTiles("Stamen.TonerLite")%>%
-      addControl(html=html_legend, position = "bottomright")
+      setView(lat=52.16, lng=5.39,zoom=7)%>%
+      addControl(html=html_legend, position = "bottomright") })
+  
+ # reset the message box  
+  observeEvent(input$GetLoc,{
+    output$message<-renderText(" ")
   })
   
  # When actionbutton, submit adress is pushed, create leaflet map  
   observeEvent(input$GetLoc, {
-    leafletProxy("mymap",data=LocCoord_WGS()) %>%
+    leafletProxy("mymap") %>%
       clearMarkers()%>%
       clearShapes()%>%
       setView(lat=LocCoord_WGS()$lat, lng=LocCoord_WGS()$lon, zoom=10) %>% 
@@ -96,7 +106,7 @@ server <- function(input, output, session) {
         layers="LBEO:Maximale waterdiepte NL_Group",
         options = WMSTileOptions (format= "image/png",transparent=TRUE, height=256, width=256, style="waterdiepte_WV21", opacity = 0.50),
         attribution = "Landelijk Informatiesysteem Water en Overstromingen (LIWO) 2011")%>%
-      addMarkers(data=LocCoord_WGS(), popup=input$LocAdress, icon = HomeIcon)
+      addMarkers(data=LocCoord_WGS(), popup=LocCoord_WGS()$address, icon = HomeIcon, options = markerOptions(zIndexOffset=1000))
   })
   # code to add the hospitals to the map
   observeEvent(input$GetLoc, {
@@ -107,7 +117,7 @@ server <- function(input, output, session) {
   # This code will check the output from dikes() for string data and then decides what to plot. 
   observeEvent(input$GetLoc, {
     if(class(dikes()) == "character") {
-      output$safespot<-renderText(dikes())
+      output$message<- renderText(dikes())
     } else {
       leafletProxy("mymap") %>%
         addPolygons(data=dikes(), color = "black", fill=FALSE)}
@@ -116,7 +126,7 @@ server <- function(input, output, session) {
   # The code will check the output from closest_breach() for string data and then decides what to plot. 
   observeEvent(input$dangerous, {
     if(class(closest_breach()) == "character") {
-      output$safespot<-renderText(closest_breach())
+      output$message<-renderText(closest_breach())
     } else {
       leafletProxy("mymap") %>%
         setView(lat=LocCoord_WGS()$lat, lng=LocCoord_WGS()$lon, zoom=10) %>%
@@ -126,10 +136,11 @@ server <- function(input, output, session) {
  # The code will check the output from safe_spot() for string data and then decides what to plot. 
   observeEvent(input$info, {
       if(class(safe_spot()) == "character") {
-        output$safespot<-renderText(safe_spot())
+        output$message<-renderText(safe_spot())
     } else {
-    leafletProxy("mymap") %>%
-      setView(lat=LocCoord_WGS()$lat, lng=LocCoord_WGS()$lon, zoom=17) %>%
-      addMarkers(data=safe_spot(), icon = SafeIcon)}
+      output$message<-renderText(" ")
+      leafletProxy("mymap") %>%
+        setView(lat=LocCoord_WGS()$lat, lng=LocCoord_WGS()$lon, zoom=17) %>%
+        addMarkers(data=safe_spot(), popup=safe_spot()$address, icon = SafeIcon)}
   })
 }

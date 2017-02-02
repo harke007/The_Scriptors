@@ -4,10 +4,14 @@
 
 ## Closest breach
 closest_breach_func <- function(x){
+  # select only the lat lon columns
+  x<-x[,1:2]
   # Establish a crs
   CRS_WGS <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
   # open the shapefile containing all the breach locations and reproject
   breach <- readOGR("data","Doorbraaklocaties")
+  #Get rid of the simulated max scenario breach points
+  breach <- breach[!(breach$NAAM %in% c('Maximaal Scenario', 'Maximaal_Scenario','Maximaal_Scenario_OS','Maximaal_Scenario_WS', 'maximaal scenario', 'Maximaal Scenario_berekend', 'Maximaal scenario', 'Maximaal_scenario')),]
   breach <- spTransform(breach,CRS_WGS)
   
   # open the shapefile with dikerings
@@ -29,7 +33,7 @@ closest_breach_func <- function(x){
   
   # check if you are inside a dikering before calculating neareset breach
   if(nk==0){
-    message<-"You are outside a dikering"
+    message<-"You are outside a dikering, no possible breaches to show"
     return(message)
   } else {
     # find closest breach
@@ -44,3 +48,4 @@ closest_breach_func <- function(x){
     breach_dikenr$nearest <- ifelse(breach_dikenr$ID == point$ID,"Near","Far")
     return(breach_dikenr)}
 }
+

@@ -4,9 +4,12 @@
 
 ## Get from the dikes shapefile the dike corresponding to the nearest breach location
 dikes_func<-function(x){
+  # test if closest_breaches() is not a string (which happens if you are outside a dikering)
   if(class(x) == "character") {
-    message<-"you are outside a dikering"
+    message<-"You are outside a dikering, no dike to show"
     return(message)
+    
+    # else get the dike ring corresponding to the dikenumber found in closest_breaches()
   } else {
     x <- x$DIJKRINGNR
     x <- levels(droplevels(x))
