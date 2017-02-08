@@ -10,6 +10,9 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       h1("If the water rises"),
+      h5("Made by: ",
+      a(href = 'https://nl.linkedin.com/in/thijs-van-loon-596030a9', "Thijs van Loon",target="_blank"), "&",
+      a(href = 'https://nl.linkedin.com/in/jelle-ten-harkel-8b5940118', "Jelle ten Harkel",target="_blank")),
       textInput("LocAdress",label = NULL, placeholder = "Enter your home adress here"),
       actionButton("GetLoc","Submit your adress", 
                    style="color: #fff; background-color: #337ab7; border-color: #2e6da4",width='100%'),
